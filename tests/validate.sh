@@ -54,6 +54,12 @@ if ! sed -n '1,30p' README.md | grep -F 'Requires Bash 4.2+' >/dev/null; then
   exit 1
 fi
 
+stale_base_refs="$(grep -R -n -E 'codeforester/base|github.com/codeforester' README.md lib/bash/README.md || true)"
+if [[ -n "$stale_base_refs" ]]; then
+  printf 'README files must not use stale codeforester Base coordinates:\n%s\n' "$stale_base_refs" >&2
+  exit 1
+fi
+
 fix_comments="$(grep -R -n '# FIX:' lib/bash || true)"
 if [[ -n "$fix_comments" ]]; then
   printf 'Production library files must not contain development # FIX: comments:\n%s\n' "$fix_comments" >&2

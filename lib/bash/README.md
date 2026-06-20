@@ -15,5 +15,5 @@ Reusable Bash libraries for command wrappers and other Bash tooling.
   Common BATS helpers for Bash library test suites.
 
 The Base runtime shell files and Base version helpers remain in
-`codeforester/base`. This repository carries only sourceable reusable library
+`basefoundry/base`. This repository carries only sourceable reusable library
 modules.
