@@ -2,6 +2,11 @@
 
 Thank you for improving this project.
 
+For coding and documentation standards, see [STANDARDS.md](STANDARDS.md). This
+repository inherits Base's shell-library standards, including the convention
+that each sourceable shell library remains a single file at its library
+boundary.
+
 ## Workflow
 
 1. Create or choose a GitHub issue before starting implementation work.
