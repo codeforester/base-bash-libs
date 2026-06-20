@@ -245,7 +245,6 @@ update_file_section() {
                 return 0
             fi
         else
-            # FIX: This awk script now correctly handles multiple sections. It only replaces the first one.
             if awk -v START_M="$beginning_marker" -v END_M="$end_marker" -v NEW_TEXT_FILE="$new_content_file" '
             BEGIN {
                 processed = 0 # 0 = not yet processed, 1 = processing, 2 = done

@@ -1128,6 +1128,36 @@ EOF
     [[ "$output" != *"invalid variable name"* ]]
 }
 
+@test "assert_integer_range rejects non-integer bounds directly" {
+    local script="$TEST_TMPDIR/assert-range-bounds.sh"
+
+    create_script "$script" <<EOF
+#!/usr/bin/env bash
+source "$STDLIB_PATH"
+count=5
+assert_integer_range count low 10
+EOF
+
+    bats_run bash "$script"
+
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"assert_integer_range minimum bound 'low' is not a valid integer."* ]]
+    [[ "$output" != *"Variable 'min'"* ]]
+
+    create_script "$script" <<EOF
+#!/usr/bin/env bash
+source "$STDLIB_PATH"
+count=5
+assert_integer_range count 1 high
+EOF
+
+    bats_run bash "$script"
+
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"assert_integer_range maximum bound 'high' is not a valid integer."* ]]
+    [[ "$output" != *"Variable 'max'"* ]]
+}
+
 @test "assert_arg_count accepts exact and ranged matches" {
     assert_arg_count 2 2
     assert_arg_count 2 1 3
