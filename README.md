@@ -2,10 +2,10 @@
 
 | Version | License | Install | Release notes |
 | --- | --- | --- | --- |
-| `0.2.1` | [Apache-2.0](LICENSE) | `brew install codeforester/base/base-bash-libs` | [v0.2.1](https://github.com/codeforester/base-bash-libs/releases/tag/v0.2.1) |
+| `0.2.1` | [Apache-2.0](LICENSE) | `brew install basefoundry/base/base-bash-libs` | [v0.2.1](https://github.com/basefoundry/base-bash-libs/releases/tag/v0.2.1) |
 
 Reusable Bash libraries extracted from
-[Base](https://github.com/codeforester/base).
+[Base](https://github.com/basefoundry/base).
 
 This repository provides sourceable Bash libraries for scripts that want
 consistent logging, command execution, filesystem editing, Git helper behavior,
@@ -35,18 +35,18 @@ See [`lib/bash/README.md`](lib/bash/README.md) for the package layout.
 Install the library package from the Base Homebrew tap:
 
 ```bash
-brew trust codeforester/base
-brew install codeforester/base/base-bash-libs
+brew trust basefoundry/base
+brew install basefoundry/base/base-bash-libs
 ```
 
 The trust step is required on Homebrew versions that block formulae from
 non-official taps until the tap is trusted. It is safe to run again on machines
-that already trust `codeforester/base`.
+that already trust `basefoundry/base`.
 
 Source the installed stdlib from the Homebrew prefix:
 
 ```bash
-base_bash_libs_prefix="$(brew --prefix codeforester/base/base-bash-libs)"
+base_bash_libs_prefix="$(brew --prefix basefoundry/base/base-bash-libs)"
 source "$base_bash_libs_prefix/libexec/lib/bash/std/lib_std.sh"
 printf 'base-bash-libs version: %s\n' "$BASE_BASH_LIBS_VERSION"
 ```
@@ -65,7 +65,7 @@ Homebrew. Keep the repository layout intact so `lib_std.sh` can find the root
 `VERSION` file:
 
 ```bash
-git clone https://github.com/codeforester/base-bash-libs.git vendor/base-bash-libs
+git clone https://github.com/basefoundry/base-bash-libs.git vendor/base-bash-libs
 ```
 
 Source the stdlib from that checkout:
@@ -131,7 +131,7 @@ brew install bats-core shellcheck
 
 ## Base
 
-This repository is managed by [Base](https://github.com/codeforester/base).
+This repository is managed by [Base](https://github.com/basefoundry/base).
 Base is useful for developing this repository, but it is not required to consume
 the Bash libraries from Homebrew, a source checkout, a vendored copy, or a git
 submodule.
