@@ -73,6 +73,8 @@ unset -f __lib_std_require_supported_bash__
 __stdlib_sourced__=1
 readonly __LIB_STD_PATH__="${BASH_SOURCE[0]}"
 
+# lib_std.sh lives at lib/bash/std/lib_std.sh in the packaged repository.
+# Walking three levels up reaches the package root that owns VERSION.
 __BASE_BASH_LIBS_ROOT__="$(
     cd -- "$(dirname -- "$__LIB_STD_PATH__")/../../.." &>/dev/null && pwd -P
 )" || {
@@ -1005,8 +1007,14 @@ assert_integer_range() {
     if ! __is_valid_variable_name__ "$var_name"; then
         fatal_error "assert_integer_range expects a variable name as its first argument."
     fi
+    if ! [[ "$min" =~ ^[-+]?[0-9]+$ ]]; then
+        fatal_error "assert_integer_range minimum bound '$min' is not a valid integer."
+    fi
+    if ! [[ "$max" =~ ^[-+]?[0-9]+$ ]]; then
+        fatal_error "assert_integer_range maximum bound '$max' is not a valid integer."
+    fi
     local value="${!var_name-}"
-    assert_integer "$var_name" min max
+    assert_integer "$var_name"
     ((value < min || value > max)) && fatal_error "Variable '$var_name' ($value) is out of range [$min, $max]."
     return 0
 }

@@ -11,6 +11,8 @@ This repository provides sourceable Bash libraries for scripts that want
 consistent logging, command execution, filesystem editing, Git helper behavior,
 and import conventions without adopting the full Base workspace control plane.
 
+Requires Bash 4.2+. On macOS, use Homebrew Bash instead of the system `/bin/bash`.
+
 ## Libraries
 
 - [`lib/bash/std/lib_std.sh`](lib/bash/std/README.md)

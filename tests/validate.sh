@@ -49,6 +49,17 @@ if ! grep -F "| \`$version\` | [Apache-2.0](LICENSE) |" README.md >/dev/null; th
   exit 1
 fi
 
+if ! sed -n '1,30p' README.md | grep -F 'Requires Bash 4.2+' >/dev/null; then
+  printf 'README.md must state the Bash 4.2+ requirement near the top-level entry point.\n' >&2
+  exit 1
+fi
+
+fix_comments="$(grep -R -n '# FIX:' lib/bash || true)"
+if [[ -n "$fix_comments" ]]; then
+  printf 'Production library files must not contain development # FIX: comments:\n%s\n' "$fix_comments" >&2
+  exit 1
+fi
+
 for command in shellcheck bats; do
   command -v "$command" >/dev/null 2>&1 || {
     printf "Required validation command '%s' was not found.\n" "$command" >&2
