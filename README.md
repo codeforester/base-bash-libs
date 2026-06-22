@@ -30,6 +30,9 @@ Requires Bash 4.2+. On macOS, use Homebrew Bash instead of the system `/bin/bash
 - [`lib/bash/str/lib_str.sh`](lib/bash/str/README.md)
   String helpers built on the stdlib for case conversion, trimming,
   predicates, splitting, joining, and array membership checks.
+- [`lib/bash/arg/lib_arg.sh`](lib/bash/arg/README.md)
+  Argument parsing helpers built on the stdlib for exact flag and value
+  options without hidden parser globals.
 
 See [`lib/bash/README.md`](lib/bash/README.md) for the package layout.
 
@@ -62,6 +65,7 @@ Load companion libraries with absolute imports from the same package:
 import "$base_bash_libs_prefix/libexec/lib/bash/file/lib_file.sh"
 import "$base_bash_libs_prefix/libexec/lib/bash/git/lib_git.sh"
 import "$base_bash_libs_prefix/libexec/lib/bash/str/lib_str.sh"
+import "$base_bash_libs_prefix/libexec/lib/bash/arg/lib_arg.sh"
 ```
 
 ### Source Checkout
@@ -88,6 +92,7 @@ Load companion libraries with absolute imports from the same checkout:
 import "$base_bash_libs_dir/lib/bash/file/lib_file.sh"
 import "$base_bash_libs_dir/lib/bash/git/lib_git.sh"
 import "$base_bash_libs_dir/lib/bash/str/lib_str.sh"
+import "$base_bash_libs_dir/lib/bash/arg/lib_arg.sh"
 ```
 
 ### Vendored or Submodule Layout
@@ -103,6 +108,7 @@ source "$base_bash_libs_dir/lib/bash/std/lib_std.sh"
 import "$base_bash_libs_dir/lib/bash/file/lib_file.sh"
 import "$base_bash_libs_dir/lib/bash/git/lib_git.sh"
 import "$base_bash_libs_dir/lib/bash/str/lib_str.sh"
+import "$base_bash_libs_dir/lib/bash/arg/lib_arg.sh"
 ```
 
 After `lib_std.sh` is sourced, `BASE_BASH_LIBS_VERSION` contains the package
