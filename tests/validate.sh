@@ -27,6 +27,9 @@ required_files=(
   lib/bash/str/README.md
   lib/bash/str/lib_str.sh
   lib/bash/str/tests/lib_str.bats
+  lib/bash/arg/README.md
+  lib/bash/arg/lib_arg.sh
+  lib/bash/arg/tests/lib_arg.bats
   lib/bash/tests/test_helper.sh
 )
 
@@ -88,13 +91,15 @@ shellcheck --severity=error \
   lib/bash/file/lib_file.sh \
   lib/bash/git/lib_git.sh \
   lib/bash/str/lib_str.sh \
+  lib/bash/arg/lib_arg.sh \
   lib/bash/tests/test_helper.sh
 
 bats \
   lib/bash/std/tests/lib_std.bats \
   lib/bash/file/tests/lib_file.bats \
   lib/bash/git/tests/lib_git.bats \
-  lib/bash/str/tests/lib_str.bats
+  lib/bash/str/tests/lib_str.bats \
+  lib/bash/arg/tests/lib_arg.bats
 
 examples/std-usage.sh >/dev/null
 
