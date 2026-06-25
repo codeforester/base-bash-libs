@@ -1218,6 +1218,24 @@ EOF
     [[ "$(cat "$stderr_file")" == *"std_register_cleanup_path: refusing to register unsafe cleanup path"* ]]
 }
 
+@test "cleanup path registration keeps valid paths from mixed batches" {
+    local target_file="$TEST_TMPDIR/cleanup-valid-file.txt"
+    local target_dir="$TEST_TMPDIR/cleanup-valid-dir"
+    local stderr_file="$TEST_TMPDIR/cleanup-mixed.err"
+    local rc=0
+
+    printf 'sample\n' > "$target_file"
+    mkdir -p "$target_dir"
+
+    std_register_cleanup_path "$target_file" "/" "$target_dir" 2>"$stderr_file" || rc=$?
+
+    [ "$rc" -eq 1 ]
+    [[ "$(cat "$stderr_file")" == *"std_register_cleanup_path: refusing to register unsafe cleanup path '/'"* ]]
+    [[ " ${__std_cleanup_paths[*]} " == *" $target_file "* ]]
+    [[ " ${__std_cleanup_paths[*]} " == *" $target_dir "* ]]
+    [[ " ${__std_cleanup_paths[*]} " != *" / "* ]]
+}
+
 @test "std_make_temp_file creates a file under TMPDIR and cleans it up" {
     local script="$TEST_TMPDIR/temp-file.sh"
     local temp_root="$TEST_TMPDIR/temp-root"
