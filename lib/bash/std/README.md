@@ -313,7 +313,8 @@ std_register_cleanup_path "$workspace"
 
 Cleanup paths are removed with `rm -rf --` from a shared `EXIT` trap. Empty
 paths, root paths, and current/parent directory traversal components are
-rejected before registration.
+rejected before registration. When one call mixes safe and unsafe paths, safe
+paths are registered, unsafe paths are rejected, and the helper returns nonzero.
 
 For custom cleanup, register a function name:
 

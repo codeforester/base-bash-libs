@@ -1245,9 +1245,11 @@ __std_is_safe_cleanup_path__() {
 #
 # std_register_cleanup_path - Registers files or directories for removal at shell exit.
 #
-# Paths are removed with `rm -rf --` from the shared EXIT trap. Empty paths, root
-# paths, and paths containing current/parent directory traversal components are
-# rejected to avoid broad accidental deletion.
+# Paths are removed with `rm -rf --` from the shared EXIT trap. Empty paths,
+# root paths, and paths containing current/parent directory traversal components
+# are rejected to avoid broad accidental deletion. Safe paths in the same call
+# are still registered, and the function returns nonzero if any path was
+# rejected.
 #
 # Usage:
 #   workspace="$(mktemp -d)"
@@ -1255,6 +1257,7 @@ __std_is_safe_cleanup_path__() {
 #
 std_register_cleanup_path() {
     local path existing_path
+    local already_registered had_valid_path=0 status=0
 
     if (($# == 0)); then
         log_warn "std_register_cleanup_path: No paths provided."
@@ -1264,12 +1267,12 @@ std_register_cleanup_path() {
     for path; do
         if ! __std_is_safe_cleanup_path__ "$path"; then
             log_error "std_register_cleanup_path: refusing to register unsafe cleanup path '$path'."
-            return 1
+            status=1
+            continue
         fi
-    done
 
-    for path; do
-        local already_registered=0
+        had_valid_path=1
+        already_registered=0
         for existing_path in "${__std_cleanup_paths[@]}"; do
             if [[ "$existing_path" == "$path" ]]; then
                 already_registered=1
@@ -1279,8 +1282,10 @@ std_register_cleanup_path() {
         ((already_registered)) || __std_cleanup_paths+=("$path")
     done
 
-    __std_install_cleanup_dispatcher__
-    return 0
+    if ((had_valid_path)); then
+        __std_install_cleanup_dispatcher__
+    fi
+    return "$status"
 }
 
 ######################################################## TEMP FILES ####################################################
