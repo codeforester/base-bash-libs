@@ -56,39 +56,45 @@ str_trim() {
 
 str_contains() {
     local value="${1-}" needle="${2-}"
+
+    assert_arg_count "$#" 2
     [[ "$value" == *"$needle"* ]]
 }
 
 str_starts_with() {
     local value="${1-}" prefix="${2-}"
+
+    assert_arg_count "$#" 2
     [[ "$value" == "$prefix"* ]]
 }
 
 str_ends_with() {
     local value="${1-}" suffix="${2-}"
+
+    assert_arg_count "$#" 2
     [[ "$value" == *"$suffix" ]]
 }
 
 str_split() {
-    local result_name="${1-}" value="${2-}" separator="${3-}"
+    local __str_split_result_name="${1-}" __str_split_value="${2-}" __str_split_separator="${3-}"
 
     assert_arg_count "$#" 3
-    assert_variable_name "$result_name"
+    assert_variable_name "$__str_split_result_name"
 
-    local -a fields=()
-    local remainder="$value"
+    local -a __str_split_fields=()
+    local __str_split_remainder="$__str_split_value"
 
-    if [[ -z "$separator" ]]; then
-        fields=("$value")
+    if [[ -z "$__str_split_separator" ]]; then
+        __str_split_fields=("$__str_split_value")
     else
-        while [[ "$remainder" == *"$separator"* ]]; do
-            fields+=("${remainder%%"$separator"*}")
-            remainder="${remainder#*"$separator"}"
+        while [[ "$__str_split_remainder" == *"$__str_split_separator"* ]]; do
+            __str_split_fields+=("${__str_split_remainder%%"$__str_split_separator"*}")
+            __str_split_remainder="${__str_split_remainder#*"$__str_split_separator"}"
         done
-        fields+=("$remainder")
+        __str_split_fields+=("$__str_split_remainder")
     fi
 
-    eval "$result_name=(\"\${fields[@]}\")"
+    eval "$__str_split_result_name=(\"\${__str_split_fields[@]}\")"
 }
 
 str_join() {

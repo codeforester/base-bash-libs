@@ -102,6 +102,29 @@ EOF
     fi
 }
 
+@test "string predicate helpers reject incorrect argument counts" {
+    local script="$TEST_TMPDIR/string-predicate-arity.sh"
+
+    create_script "$script" <<EOF
+#!/usr/bin/env bash
+source "$BASE_BASH_DIR/std/lib_std.sh"
+source "$BASE_BASH_DIR/str/lib_str.sh"
+"\$@"
+EOF
+
+    bats_run bash "$script" str_contains "needle-only"
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Argument count mismatch: expected 2 but got 1 arguments"* ]]
+
+    bats_run bash "$script" str_starts_with "value" "prefix" "extra"
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Argument count mismatch: expected 2 but got 3 arguments"* ]]
+
+    bats_run bash "$script" str_ends_with
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Argument count mismatch: expected 2 but got 0 arguments"* ]]
+}
+
 @test "str_split stores delimited fields in a named array" {
     local -a parts=()
 
@@ -112,6 +135,17 @@ EOF
     [ "${parts[1]}" = "beta" ]
     [ "${parts[2]}" = "" ]
     [ "${parts[3]}" = "gamma" ]
+}
+
+@test "str_split can store results in an array named fields" {
+    local -a fields=()
+
+    str_split fields "alpha:beta:gamma" ":"
+
+    [ "${#fields[@]}" -eq 3 ]
+    [ "${fields[0]}" = "alpha" ]
+    [ "${fields[1]}" = "beta" ]
+    [ "${fields[2]}" = "gamma" ]
 }
 
 @test "str_split rejects invalid result variable names" {
