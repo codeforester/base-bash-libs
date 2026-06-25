@@ -59,7 +59,8 @@ str_join joined "|" parts
 - Trim helpers remove Bash character-class whitespace from the requested side.
 - String transformation helpers mutate the named variable in place and do not
   print transformed values for command substitution.
-- Predicate helpers return shell status and do not print output.
+- Predicate helpers require exactly two arguments, return shell status, and do
+  not print output.
 - `str_split` preserves empty fields between repeated delimiters.
 - `str_join` preserves empty array elements, including trailing empty elements.
 - Named string, result, and array arguments must be valid Bash variable names.
